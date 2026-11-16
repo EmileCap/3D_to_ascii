@@ -1,0 +1,1 @@
+export function exportFrames(frames){return JSON.stringify({version:1,format:'ascii3d-frames',frames:frames.map(f=>({angle:f.angle??0,width:f.width,height:f.height,rows:f.rows,colors:f.colors}))},null,2)+'\n'}

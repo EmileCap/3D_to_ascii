@@ -1,0 +1,1 @@
+export function exportAnsi(frame){let out='';for(let y=0;y<frame.height;y++){let prev='';for(let x=0;x<frame.width;x++){let c=frame.colors[y][x];if(c!==prev){out+=`\x1b[38;2;${parseInt(c.slice(1,3),16)};${parseInt(c.slice(3,5),16)};${parseInt(c.slice(5,7),16)}m`;prev=c}out+=frame.rows[y][x]}out+='\x1b[0m\n'}return out}

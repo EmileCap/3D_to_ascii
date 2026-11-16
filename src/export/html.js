@@ -1,0 +1,1 @@
+export function exportHtml(frame){let rows=frame.rows.map((r,y)=>[...r].map((c,x)=>`<span style="color:${frame.colors[y][x]}">${c.replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;')}</span>`).join('')).join('\n');return `<!doctype html><meta charset="utf-8"><style>body{background:#080b0e}pre{font:9px monospace;white-space:pre}</style><pre>${rows}</pre>`}

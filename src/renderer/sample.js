@@ -1,0 +1,2 @@
+import * as THREE from "../../node_modules/three/build/three.module.js";
+export function makeSample(){let group=new THREE.Group(),mat=new THREE.MeshStandardMaterial({color:0x43d6a2,roughness:.38,metalness:.12}),cube=new THREE.Mesh(new THREE.BoxGeometry(1.35,1.35,1.35),mat),ball=new THREE.Mesh(new THREE.SphereGeometry(.48,32,20),new THREE.MeshStandardMaterial({color:0xe9b66c,roughness:.35}));ball.position.set(.85,.78,.1);group.add(cube,ball);return group}

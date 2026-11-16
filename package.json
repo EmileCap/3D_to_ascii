@@ -1,0 +1,64 @@
+{
+  "name": "ascii3d",
+  "version": "1.0.0",
+  "description": "Convertisseur 3D vers ASCII local",
+  "main": "src/main/main.js",
+  "license": "MIT",
+  "bin": {
+    "ascii3d": "bin/ascii3d.js"
+  },
+  "scripts": {
+    "start": "electron .",
+    "dev": "electron . --dev",
+    "dist:linux": "electron-builder --linux AppImage deb",
+    "dist:mac": "electron-builder --mac dmg --x64 --arm64",
+    "dist:win": "electron-builder --win nsis",
+    "test": "node --test test/*.test.js",
+    "sample": "node scripts/make-sample.js"
+  },
+  "dependencies": {
+    "three": "^0.187.0"
+  },
+  "devDependencies": {
+    "electron": "^45.3.3",
+    "electron-builder": "^26.18.0"
+  },
+  "build": {
+    "appId": "org.ascii3d.app",
+    "productName": "ASCII3D",
+    "files": [
+      "src/**/*",
+      "assets/**/*",
+      "bin/**/*",
+      "node_modules/three/**/*",
+      "package.json",
+      "README.md"
+    ],
+    "directories": {
+      "output": "release"
+    },
+    "linux": {
+      "target": [
+        "AppImage",
+        "deb"
+      ],
+      "category": "Graphics"
+    },
+    "mac": {
+      "target": [
+        "dmg"
+      ],
+      "artifactName": "ASCII3D-${arch}.${ext}"
+    },
+    "win": {
+      "target": [
+        "nsis"
+      ]
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true
+    }
+  },
+  "type": "module"
+}

@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="dark">
+<title>ASCII3D — Atelier typographique</title>
+<link rel="stylesheet" href="styles.css">
+<script type="importmap">{"imports":{"three":"../../node_modules/three/build/three.module.js"}}</script>
+</head>
+<body>
+<header class="topbar">
+  <div class="brand"><span class="brand-mark">A3</span><div><strong>ASCII<span>3D</span></strong><small>TERMINAL DE CONVERSION / V1.0</small></div></div>
+  <div class="top-actions"><span id="model-name" class="model-name">AUCUN FICHIER CHARGÉ</span><button id="open" class="quiet">[ OUVRIR UN FICHIER ]</button><button id="sample" class="quiet">[ EXEMPLE ]</button><button id="export" class="primary">EXPORTER SPRITE PNG</button></div>
+</header>
+<main class="workspace">
+<aside class="sidebar">
+  <div class="side-head"><span>// CONFIGURATION</span><span class="live"><i></i> LIVE</span></div>
+  <section class="control-section"><h2><b>01</b> RENDU</h2>
+    <label>Largeur de grille <output id="width-value">120</output><input id="width" type="range" min="40" max="400" value="120"></label>
+    <label>Ratio de grille (hauteur / largeur) <output id="ratio-value">0.50</output><input id="ratio" type="range" min="0.2" max="1" step="0.01" value="0.5"></label>
+    <label>Caractères<select id="charset"><option value="short">Classique · 10</option><option value="long">Densité · 70</option><option value="blocks">Blocs</option><option value="braille">Braille</option><option value="custom">Personnalisé</option></select></label>
+    <label id="custom-wrap" hidden>Jeu personnalisé<input id="custom-charset" value=" .:-=+*#%@"></label>
+    <label class="check"><input id="invert" type="checkbox"> Inverser les caractères</label>
+  </section>
+  <section class="control-section"><h2><b>02</b> COULEUR</h2>
+    <label>Mode<select id="color"><option value="mono">Monochrome</option><option value="model">Couleurs du modèle</option><option value="ansi">Palette terminal 16</option><option value="gradient">Dégradé personnalisé</option></select></label>
+    <label id="mono-wrap">Encre<input id="mono-color" type="color" value="#e8ebdf"></label><label id="gradient-wrap" hidden>Dégradé<input id="gradient" value="#15243c,#49e0b1,#f4e5bd"></label>
+    <label>Fond<select id="bg"><option value="black">Terminal noir</option><option value="white">Papier clair</option><option value="transparent">Transparent</option></select></label>
+  </section>
+  <section class="control-section"><h2><b>03</b> FINITION</h2>
+    <label class="check"><input id="edges" type="checkbox"> Détection des contours</label><label>Seuil <output id="threshold-value">0.18</output><input id="threshold" type="range" min="0" max="1" step="0.01" value="0.18"></label>
+    <label>Contraste <output id="contrast-value">1.00</output><input id="contrast" type="range" min="0" max="3" step="0.05" value="1"></label>
+    <label>Luminosité <output id="brightness-value">0.00</output><input id="brightness" type="range" min="-1" max="1" step="0.02" value="0"></label>
+    <label>Gamma <output id="gamma-value">1.00</output><input id="gamma" type="range" min="0.2" max="3" step="0.05" value="1"></label>
+    <label>Lumière <output id="light-value">1.00</output><input id="light" type="range" min="0" max="3" step="0.05" value="1"></label>
+    <label class="check"><input id="wireframe" type="checkbox"> Fil de fer</label>
+  </section>
+  <div class="side-foot"><button id="preset-save">[ ENREGISTRER PRESET ]</button><button id="preset-open">[ CHARGER PRESET ]</button></div>
+</aside>
+<section class="stage">
+  <div class="stage-head"><div><span class="eyebrow">SYS://ASCII3D/WORKSPACE</span><h1>Convertisseur <em>3D → ASCII</em></h1></div><div class="animation-controls"><label>Animation<select id="animation-mode"><option value="turntable">Rotation 360°</option><option value="clip" disabled>Animation du modèle</option></select></label><label>Caméra export<select id="export-camera"><option value="isometric">Isométrique fixe (stable)</option><option value="preview">Caméra de l’aperçu 3D</option></select></label><label id="clip-wrap" hidden>Clip<select id="clip-select"></select></label><div class="animation-file-controls"><button id="import-animation" class="quiet" disabled>[ IMPORTER ANIMATION ]</button><button id="play-animation" class="quiet" disabled>[ LIRE ]</button><span id="animation-file-name" class="control-hint">Importez un GLB/FBX animé</span></div><label>Images/s<input id="animation-fps" type="number" min="1" max="60" value="12"></label><label>Images de rotation<input id="turntable-frames" type="number" min="2" max="120" value="12"></label><span id="animation-status" class="control-hint">Aucun clip dans ce modèle</span><button id="turntable" class="turntable">[ EXPORTER LA SÉQUENCE ]</button></div></div>
+  <div class="preview-grid"><div class="model-panel"><div class="panel-label"><span>&gt; SCÈNE_3D</span><span>GL / ORBIT</span></div><div id="scene"></div><div class="scene-hint">GLISSER POUR ORBITER <b>·</b> CLIC DROIT POUR DÉPLACER</div></div>
+    <div class="ascii-panel"><div class="panel-label"><span>&gt; SORTIE_ASCII</span><span id="grid-size">120 × 60</span></div><div class="ascii-canvas-wrap"><canvas id="output"></canvas></div><div id="empty" class="empty"><div class="empty-icon">[ _ ]</div><strong>AUCUN MAILLAGE EN MÉMOIRE</strong><span>Ouvrez un modèle ou chargez l’exemple pour commencer.</span><button id="empty-sample">[ CHARGER L’EXEMPLE ]</button></div><div class="ascii-meta"><span><i></i> APERÇU EN DIRECT</span><span id="status">EN ATTENTE</span></div></div>
+  </div>
+  <footer><span>ASCII3D <b>·</b> TERMINAL 01</span><span>GLB · GLTF · OBJ · STL · FBX</span><span>LOCAL-FIRST / NO CDN</span></footer>
+</section></main><div id="dropzone" class="dropzone" hidden>DÉPOSER UN MODÈLE 3D ICI</div><div id="toast" role="status"></div><script type="module" src="app.js"></script>
+</body></html>

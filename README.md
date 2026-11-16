@@ -22,7 +22,7 @@ Ouvre la section **Releases** du dépôt GitHub et télécharge le paquet qui co
 | macOS, Apple Silicon ou Intel | `ASCII3D-arm64.dmg` ou `ASCII3D-x64.dmg` | Ouvre le DMG et glisse l’application dans Applications. Les builds ne sont pas signés/notarisés : macOS peut demander une confirmation dans Réglages système > Confidentialité et sécurité. |
 | Linux, x64 | `*.AppImage` ou `*.deb` | AppImage : rends le fichier exécutable puis lance-le. Debian/Ubuntu : installe le paquet `.deb` avec le gestionnaire logiciel ou `sudo apt install ./fichier.deb`. |
 
-Les paquets Linux et macOS sont produits sur `ubuntu-latest` et `macos-latest`; la matrice actuelle vise x64 pour Linux, x64 et arm64 pour macOS, et x64 pour Windows.
+Les builds sont exécutés sur un runner natif par système : Linux x64, macOS x64/arm64 et Windows x64.
 
 ## Lancer depuis les sources
 
@@ -94,8 +94,8 @@ Cibles configurées : AppImage et DEB (Linux), DMG x64/arm64 (macOS), NSIS x64 (
 Les pushes de tags `v*` déclenchent les tests, puis les builds natifs des trois systèmes. Une Release GitHub est ensuite créée avec les installateurs joints. Exemple :
 
 ```sh
-git tag v1.0.1
-git push origin v1.0.1
+git tag v1.0.0
+git push origin v1.0.0
 ```
 
 Un lancement manuel du workflow construit et dépose les installateurs comme artefacts GitHub Actions sans créer de Release.
